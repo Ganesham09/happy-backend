@@ -1,7 +1,6 @@
-// require('dotenv').config({path: './env'})
-
 import dotenv from 'dotenv';
 import connectDB from './db/index.js';
+import { app } from './app.js';
 
 dotenv.config({
   path: './env',
@@ -13,8 +12,8 @@ connectDB()
       console.log('ERRR', error); // add for an event then throw error
       throw error;
     });
-    app.listen(Process.env.PORT || 8000, () => {
-      console.log(`APP is listing on: ${Process.env.PORT}`);
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`⚙️  APP is listing on: ${process.env.PORT}`);
     });
   })
   .catch((error) => {
