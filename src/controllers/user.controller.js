@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, 'all feilds are required');
   }
-  if (email?.includes('@')) {
+  if (!email.includes('@')) {
     throw new ApiError(409, 'email seems to be not correct');
   }
 
