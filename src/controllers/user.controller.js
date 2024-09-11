@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // return res
 
   const { fullName, email, username, password } = req.body;
-  console.log('email:', email);
+  // console.log('email:', email);
   // if(fullName === ""){
   //   throw new ApiError(400, "fullname is required")
   // }
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(409, 'email seems to be not correct');
   }
 
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
