@@ -186,6 +186,11 @@ const loginUser = asyncHandler(async (req, res) => {
 /* LOGOUT USER*/
 
 const logoutUser = asyncHandler(async (req, res) => {
+  if (!req.user || !req.user._id) {
+    return res
+      .status(401)
+      .json(new ApiResponse(401, {}, 'User not authenticated'));
+  }
   await User.findByIdAndUpdate(
     req.user._id,
     {
