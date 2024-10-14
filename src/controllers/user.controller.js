@@ -309,6 +309,33 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, 'Account details update Successfully'));
 });
 
+// const deleteUserAvatar = asyncHandler(async(req, res) => {
+//   const avatarLocalPath = req.file?.path;
+
+//   if (!avatarLocalPath) {
+//     throw new ApiError(400, 'Avatar file is missing ');
+//   }
+//   const avatar = await uploadOnCloudinary(avatarLocalPath);
+
+//   if (!avatar.url) {
+//     throw new ApiError(400, 'Error while uploding on avatar ');
+//   }
+
+//   const user = await User.findByIdAndUpdate(
+//     req.user?._id,
+//     {
+//       $set:{
+//         avatar: null,
+//       },
+//     },
+//     {new : true}
+//   ).select("-password")
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, user, 'Avatar delete Successfully'));
+// })
+
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
@@ -335,33 +362,6 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, 'Avatar update Successfully'));
 });
-
-// const deleteUserAvatar = asyncHandler(async(req, res) => {
-//   const avatarLocalPath = req.file?.path;
-
-//   if (!avatarLocalPath) {
-//     throw new ApiError(400, 'Avatar file is missing ');
-//   }
-//   const avatar = await uploadOnCloudinary(avatarLocalPath);
-
-//   if (!avatar.url) {
-//     throw new ApiError(400, 'Error while uploding on avatar ');
-//   }
-
-//   const user = await User.findByIdAndDelete(
-//     req.user?._id,
-//     {
-//       $or:{
-//         avatar: avatar.url,
-//       },
-//     },
-//     {old : true}
-//   ).select("-password")
-
-//   return res
-//     .status(200)
-//     .json(new ApiResponse(200, user, 'Avatar delete Successfully'));
-// })
 
 const updateUserCoverImage = asyncHandler(async (req, res) => {
   const coverImageLocalPath = req.file?.path;
