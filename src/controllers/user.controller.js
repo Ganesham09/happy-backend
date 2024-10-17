@@ -4,6 +4,7 @@ import { User } from '../models/user.model.js';
 import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 /* GENERATING ACCESS AND REFRESH TOKEN*/
 const generateAccessAndRefreshToken = async (userId) => {
@@ -72,7 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (existedUser) {
     throw new ApiError(
-      409,
+      401,
       'OOps!! user already existed with same user name and email'
     );
   }
@@ -81,7 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.files?.avatar[0]?.path;
   // const coverImageLoaclPath = req.files?.coverImage[0]?.path;
 
-  let coverImageLoaclPath;
+  let coverImageLocalPath;
   if (
     req.files &&
     Array.isArray(req.files.coverImage) &&
@@ -95,7 +96,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
-  const coverImage = await uploadOnCloudinary(coverImageLoaclPath);
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
   if (!avatar) {
     throw new ApiError(400, 'avatar is required');
@@ -157,8 +158,8 @@ const loginUser = asyncHandler(async (req, res) => {
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
-  console.log('User Logged in Successfully');
   console.log('Tokens generated, sending response...');
+  console.log('User Logged in Successfully');
   const loggedInUser = await User.findById(user._id).select(
     '-password -refreshToken'
   );
@@ -218,7 +219,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
-    req.cookis.refreshAccessToken || req.body.refreshAccessToken;
+    req.cookies.refreshAccessToken || req.body.refreshAccessToken;
 
   if (!incomingRefreshToken) {
     throw new ApiError(401, 'unauthorized request');
@@ -426,7 +427,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
           $size: '$subscribers',
         },
         channelsSubscriebedToCount: {
-          $size: 'subscribedTo',
+          $size: '$subscribedTo',
         },
         isSubscribed: {
           $cond: {
