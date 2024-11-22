@@ -18,3 +18,4 @@ const deleteComment = asyncHandler(async (req, res) => {
   // TODO: delete a comment
 });
 export { getVideoComments, addComment, updateComment, deleteComment };
+// In the comment.controller.js file, we have defined four functions: getVideoComments, addComment, updateComment, and deleteComment. These functions will be responsible for handling the CRUD operations for comments on videos. We will implement the logic for these functions in the upcoming sections.
