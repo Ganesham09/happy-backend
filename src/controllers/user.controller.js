@@ -41,17 +41,6 @@ const generateAccessAndRefreshToken = async (userId) => {
 /* REGISTER USER*/
 
 const registerUser = asyncHandler(async (req, res) => {
-  // Steps for register usere are =>
-  // get user details from frontend
-  // validation - not empty
-  // check if user already exits : username, email
-  // check for images, check for avatar
-  // uplode them for cloudinary, avatar
-  // create user object - create entry in db
-  // remove password and refresh token field from response
-  // check for user creation
-  // return res
-
   const { fullName, email, username, password } = req.body;
   // console.log('email:', email);
   // if(fullName === ""){
@@ -128,13 +117,6 @@ const registerUser = asyncHandler(async (req, res) => {
 /* LOGIN USER*/
 
 const loginUser = asyncHandler(async (req, res) => {
-  // req.body
-  //username and email
-  // find user
-  //password check
-  //access and refersh token
-  //send cookies
-
   const { email, username, password } = req.body;
   if (!username && !email) {
     throw new ApiError(400, 'username or password is required');
